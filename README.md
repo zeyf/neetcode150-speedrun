@@ -1,2 +1,3 @@
 # neetcode150-speedrun
-another one
+
+Going through this again just as a primer for important upcoming interviews
