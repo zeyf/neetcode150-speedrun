@@ -1,3 +1,5 @@
+## Removed the additional element to the q tuple -- can just have a single variable to set distance at levels
+'''
 from collections import deque
 
 class Solution:
@@ -33,6 +35,51 @@ class Solution:
                         q.append((nx, ny, rooms[nx][ny]))
 
                 level_size -= 1
+
+        """
+        Do not return anything, modify rooms in-place instead.
+        """
+
+'''
+
+from collections import deque
+
+class Solution:
+
+    def inbounds(self, x: int, y: int, n: int, m: int):
+        return x >= 0 and y >= 0 and x < n and y < m
+
+    def wallsAndGates(self, rooms: List[List[int]]) -> None:
+        q = deque()
+        directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+        GATE, SAFE = 0, 2147483647
+
+
+        for x in range(len(rooms)):
+            for y in range(len(rooms[x])):
+                if rooms[x][y] == GATE:
+                    q.append((x, y))
+
+        level = 1
+        while len(q) > 0:
+            level_size = len(q)
+
+            while level_size > 0:
+                cx, cy = q.popleft()
+
+                for dx, dy in directions:
+                    nx, ny = cx + dx, cy + dy
+
+                    if (
+                        self.inbounds(nx, ny, len(rooms), len(rooms[0])) and
+                        rooms[nx][ny] == SAFE
+                    ):
+                        rooms[nx][ny] = level
+                        q.append((nx, ny))
+
+                level_size -= 1
+            
+            level += 1
 
         """
         Do not return anything, modify rooms in-place instead.
